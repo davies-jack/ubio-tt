@@ -10,7 +10,7 @@ export class InstanceRouter extends Router {
         summary: 'Fetches all groups',
     })
     async getInstances() {
-        return this.instanceRepository.getAllGroups();
+        return await this.instanceRepository.getAllGroups();
     }
 
     @Post({
