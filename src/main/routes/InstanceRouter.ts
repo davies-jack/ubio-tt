@@ -55,4 +55,18 @@ export class InstanceRouter extends Router {
     ) {
         return await this.instanceRepository.deleteInstance(group, id);
     }
+
+    @Get({
+        path: '/{group}',
+        summary: 'Fetches all instances in a group',
+    })
+    async getInstancesInGroup(
+        @PathParam('group', {
+            schema: {
+                type: 'string',
+            }
+        }) group: string,
+    ) {
+        return await this.instanceRepository.getInstancesInGroup(group);
+    }
 }

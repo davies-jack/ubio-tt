@@ -101,5 +101,18 @@ export class InstanceRepository {
       id,
     });
   }
+
+  async getInstancesInGroup(group: string): Promise<InstanceSchema[]> {
+    const instances = await this.collection.find({
+      group,
+    }).toArray();
+    return instances.map((instance) => ({
+      id: instance.id,
+      group: instance.group,
+      createdAt: instance.createdAt.getTime(),
+      updatedAt: instance.updatedAt.getTime(),
+      meta: instance.meta,
+    }));
+  }
 }
 
