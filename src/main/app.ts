@@ -28,6 +28,7 @@ export class App extends Application {
     override async beforeStart() : Promise<void> {
         this.logger.info('Starting application');
         await this.mongodb.start();
+        await this.instanceRepository.AutoDeleteIndex();
         await this.httpServer.startServer();
     }
     override async afterStop() : Promise<void> {
