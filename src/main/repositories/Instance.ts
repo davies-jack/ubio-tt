@@ -56,7 +56,7 @@ export class InstanceRepository {
     }));
   }
 
-  async registerInstance(group: string, id: string, meta?: any): Promise<InstanceSchema> {
+  async registerInstance(group: string, id: string, meta?: any): Promise<InstanceSchema | null> {
     const instance = await this.collection.findOneAndUpdate(
       {
         group,
@@ -83,7 +83,7 @@ export class InstanceRepository {
     );
 
     if (!instance) {
-      throw new Error("Failed to register instance");
+      return null;
     }
 
     return {
