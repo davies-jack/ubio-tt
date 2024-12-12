@@ -94,5 +94,12 @@ export class InstanceRepository {
         meta: instance.meta,
     }
   }
+
+  async deleteInstance(group: string, id: string) {
+    await this.collection.deleteOne({
+      group,
+      id,
+    });
+  }
 }
 

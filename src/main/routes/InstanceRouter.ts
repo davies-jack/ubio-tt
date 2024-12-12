@@ -1,4 +1,4 @@
-import { BodyParam, Get, PathParam, Post, Router } from "@ubio/framework";
+import { BodyParam, Delete, Get, PathParam, Post, Router } from "@ubio/framework";
 import { dep } from "mesh-ioc";
 import { InstanceRepository } from "../repositories/Instance.js";
 
@@ -35,5 +35,24 @@ export class InstanceRouter extends Router {
         }) meta?: any,
     ) {
         return await this.instanceRepository.registerInstance(group, id, meta);
+    }
+
+    @Delete({
+        path: '/{group}/{id}',
+        summary: 'Deletes an instance',
+    })
+    async deleteInstance(
+        @PathParam('group', {
+            schema: {
+                type: 'string',
+            }
+        }) group: string,
+        @PathParam('id', {
+            schema: {
+                type: 'string',
+            }
+        }) id: string,
+    ) {
+        return await this.instanceRepository.deleteInstance(group, id);
     }
 }
