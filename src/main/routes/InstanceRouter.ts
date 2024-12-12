@@ -16,6 +16,21 @@ export class InstanceRouter extends Router {
     @Post({
         path: '/{group}/{id}',
         summary: 'Registers an instance',
+        responses: {
+            201:  {
+                description: 'Instance registered',
+                schema: {
+                    type: 'object',
+                    properties: {
+                        id: { type: 'string' },
+                        group: { type: 'string' },
+                        createdAt: { type: 'string' },
+                        updatedAt: { type: 'string' },
+                        meta: { type: 'object' },
+                    },
+                },
+            }
+        }
     })
     async registerInstance(
         @PathParam('group', {
@@ -34,7 +49,10 @@ export class InstanceRouter extends Router {
             }
         }) meta?: any,
     ) {
-        return await this.instanceRepository.registerInstance(group, id, meta);
+        const instance = await this.instanceRepository.registerInstance(group, id, meta);
+        this.ctx.status = 201;
+        
+        return instance;
     }
 
     @Delete({
