@@ -3,9 +3,11 @@ import { MongoDb } from '@ubio/framework/modules/mongodb';
 
 import { dep, Mesh } from 'mesh-ioc';
 import { InstanceRouter } from './routes/InstanceRouter.js';
+import { InstanceRepository } from './repositories/Instance.js';
 
 export class App extends Application {
     @dep() private mongodb!: MongoDb;
+    @dep() private instanceRepository!: InstanceRepository;
 
     constructor() {
         super();
@@ -14,6 +16,7 @@ export class App extends Application {
 
     override createGlobalScope() : Mesh {
         const mesh = super.createGlobalScope();
+        mesh.service(InstanceRepository);
         return mesh;
     }
     override createHttpRequestScope(): Mesh {
