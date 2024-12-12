@@ -1,0 +1,6 @@
+{
+    "require": ["reflect-metadata"],
+    "reporter": "spec",
+    "exit": true,
+    "spec": "./out/**/*.test.js"
+}
