@@ -1,13 +1,26 @@
 import { MongoDb } from "@ubio/framework/modules/mongodb";
 import { dep } from "mesh-ioc";
 import { InstanceSchema } from "../schemas/InstanceSchema.js";
+import { config } from "@ubio/framework";
 
 export class InstanceRepository {
   @dep() private mongodb!: MongoDb;
+  @config({
+    default: 7200
+  }) private EXPIRY_TIME_IN_SECONDS!: number;
 
   protected get collection() {
     return this.mongodb.db.collection("instances");
   }
+
+  async AutoDeleteIndex() {
+    await this.collection.createIndex({
+      updatedAt: 1
+    }, {
+      expireAfterSeconds: this.EXPIRY_TIME_IN_SECONDS
+    });
+  }
+
 
   async getAllGroups(): Promise<
     { group: string; instances: number; createdAt: number; updatedAt: number }[]
