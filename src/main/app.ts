@@ -2,6 +2,7 @@ import { Application } from '@ubio/framework';
 import { MongoDb } from '@ubio/framework/modules/mongodb';
 
 import { dep, Mesh } from 'mesh-ioc';
+import { InstanceRouter } from './routes/InstanceRouter.js';
 
 export class App extends Application {
     @dep() private mongodb!: MongoDb;
@@ -17,6 +18,7 @@ export class App extends Application {
     }
     override createHttpRequestScope(): Mesh {
         const mesh = super.createHttpRequestScope();
+        mesh.service(InstanceRouter);
         return mesh;
     }
 
