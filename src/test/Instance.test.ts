@@ -1,14 +1,19 @@
 import supertest from "supertest";
 import { expect } from "chai";
 import { App } from "../main/app.js";
+import { TestInstanceRepository } from "../main/repositories/test/Instance.js";
 
 describe('Instance Router', () => {
     const app = new App();
+    app.mesh.service(TestInstanceRepository);
+
+    const testInstanceRepository = app.mesh.resolve(TestInstanceRepository);
 
     beforeEach(async () => {
         await app.start();
     });
     afterEach(async () => {
+        await testInstanceRepository.wipeDatabase();
         await app.stop();
     });
 
