@@ -19,6 +19,10 @@ In another terminal window, run `npm start` to start the server. If you see a lo
 
 With **both** the Typescript compiler (`npm run dev`) and the Mongo instance running, run `npm run test` to run the tests. This is done with Supertest, alongside Mocha and Chai.
 
+## Considerations
+
+If a document does not exist when you try to delete it, it will return a 404.
+
 ## Endpoints avaliable
 
 ### GET /
