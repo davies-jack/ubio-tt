@@ -50,7 +50,14 @@ export class InstanceRouter extends Router {
         }) meta?: any,
     ) {
         const instance = await this.instanceRepository.registerInstance(group, id, meta);
-        this.ctx.status = 201;
+        if (instance === null) {
+            this.ctx.status = 400;
+            return;
+        }
+
+        if (instance.updatedAt === instance.createdAt) {
+            this.ctx.status = 201;
+        }
         
         return instance;
     }
