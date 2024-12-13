@@ -96,10 +96,12 @@ export class InstanceRepository {
   }
 
   async deleteInstance(group: string, id: string) {
-    await this.collection.deleteOne({
+    const deletedDocument = await this.collection.deleteOne({
       group,
       id,
     });
+
+    return deletedDocument.deletedCount > 0;
   }
 
   async getInstancesInGroup(group: string): Promise<InstanceSchema[]> {
