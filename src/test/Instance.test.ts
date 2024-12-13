@@ -63,4 +63,27 @@ describe('Instance Router', () => {
             expect(updateBody.updatedAt).to.be.greaterThan(createBody.updatedAt);
         });
     });
+
+    describe('DELETE /{group}/{id}', () => {
+        it('200 - should return 200 when deleting an existing instance', async () => {
+            const request = supertest(app.httpServer.callback());
+
+            const { status: createStatus } = await request.post('/particle-accelerator/123')
+            .send({
+                meta: {
+                    location: 'NL',
+                }
+            });
+            expect(createStatus).to.be.equal(201);
+
+            const { status: deleteStatus } = await request.delete('/particle-accelerator/123');
+            expect(deleteStatus).to.be.equal(200);
+        });
+
+        it('404 - should return 404 if the instance does not exist', async () => {
+            const request = supertest(app.httpServer.callback());
+            const response = await request.delete('/particle-accelerator/123');
+            expect(response.status).to.be.equal(404);
+        });
+    });
 });
