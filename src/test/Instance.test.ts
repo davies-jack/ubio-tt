@@ -26,4 +26,41 @@ describe('Instance Router', () => {
             expect(response.body).to.be.an('array');
         });
     });
+
+    describe('POST /{group}/{id}', () => {
+        it('201 - should register an instance', async () => {
+            const request = supertest(app.httpServer.callback());
+            const response = await request.post('/particle-accelerator/123').send({
+                meta: {
+                    location: 'NL',
+                }
+            });
+
+            expect(response.status).to.be.equal(201);
+            expect(response.body).to.be.an('object');
+            expect(response.body.group).to.be.equal('particle-accelerator');
+            expect(response.body.id).to.be.equal('123');
+        });
+
+        it('200 - should return 200 if the instance already exists and update updatedAt', async () => {
+            const request = supertest(app.httpServer.callback());
+
+            const { status: createStatus, body: createBody } = await request.post('/particle-accelerator/123')
+            .send({
+                meta: {
+                    location: 'NL',
+                }
+            });
+            expect(createStatus).to.be.equal(201);
+
+            const { status: updateStatus, body: updateBody } = await request.post('/particle-accelerator/123')
+            .send({
+                meta: {
+                    location: 'NL',
+                }
+            });
+            expect(updateStatus).to.be.equal(200);
+            expect(updateBody.updatedAt).to.be.greaterThan(createBody.updatedAt);
+        });
+    });
 });
