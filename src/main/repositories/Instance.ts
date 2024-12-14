@@ -95,7 +95,7 @@ export class InstanceRepository {
     }
   }
 
-  async deleteInstance(group: string, id: string) {
+  async deleteInstance(group: string, id: string) : Promise<boolean> {
     const deletedDocument = await this.collection.deleteOne({
       group,
       id,
