@@ -43,6 +43,16 @@ describe('Instance Router', () => {
             expect(response.body.id).to.be.equal('123');
         });
 
+        it('201 - should return 201 when registering an instance with no meta', async () => {
+            const request = supertest(app.httpServer.callback());
+            const response = await request.post('/particle-accelerator/123');
+            expect(response.status).to.be.equal(201);
+            expect(response.body).to.be.an('object');
+            expect(response.body.group).to.be.equal('particle-accelerator');
+            expect(response.body.id).to.be.equal('123');
+            expect(response.body.meta).to.be.equal(undefined);
+        });
+
         it('200 - should return 200 if the instance already exists and update updatedAt', async () => {
             const request = supertest(app.httpServer.callback());
 
