@@ -2,6 +2,7 @@ import supertest from "supertest";
 import { expect } from "chai";
 import { App } from "../main/app.js";
 import { TestInstanceRepository } from "../main/repositories/test/Instance.js";
+import { InstanceSchema } from "../main/schemas/InstanceSchema.js";
 
 describe('Instance Router', () => {
     const app = new App();
@@ -82,8 +83,44 @@ describe('Instance Router', () => {
 
         it('404 - should return 404 if the instance does not exist', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.delete('/particle-accelerator/123');
+            const response = await request.delete('/particle-accelerator/does-not-exist');
             expect(response.status).to.be.equal(404);
+        });
+    });
+
+    describe('GET /{group}', () => {
+        it('200 - should return 200 when fetching all instances in a group', async () => {
+            const createRequests = {
+                '/particle-accelerator/123': {
+                    meta: {
+                        location: 'NL',
+                    }
+                },
+                '/particle-accelerator/124': {
+                    meta: {
+                        location: 'NL',
+                    }
+                },
+                '/particle-accelerator/125': {
+                    meta: {
+                        location: 'NL',
+                    }
+                },
+            };
+
+            for (const [path, body] of Object.entries(createRequests)) {
+                const request = supertest(app.httpServer.callback());
+                const response = await request.post(path).send(body);
+                expect(response.status).to.be.equal(201);
+            }
+
+            const request = supertest(app.httpServer.callback());
+            const response = await request.get('/particle-accelerator');
+
+            expect(response.status).to.be.equal(200);
+            expect(response.body).to.be.an('array');
+            expect(response.body.length).to.be.equal(3);
+            expect(response.body.every((instance: InstanceSchema) => instance.group === 'particle-accelerator')).to.be.true;
         });
     });
 });
