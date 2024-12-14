@@ -63,6 +63,27 @@ describe('Instance Router', () => {
             expect(updateStatus).to.be.equal(200);
             expect(updateBody.updatedAt).to.be.greaterThan(createBody.updatedAt);
         });
+
+        it('200 - should return 200 if the instance already exists and update meta', async () => {
+            const request = supertest(app.httpServer.callback());
+            const { status: createStatus, body: createBody } = await request.post('/particle-accelerator/123').send({
+                meta: {
+                    location: 'NL',
+                }
+            });
+            expect(createStatus).to.be.equal(201);
+            expect(createBody.meta.location).to.be.equal('NL');
+
+            const { status: updateStatus, body: updateBody } = await request.post('/particle-accelerator/123').send({
+                meta: {
+                    location: 'UK',
+                    more: 'data',
+                }
+            });
+            expect(updateStatus).to.be.equal(200);
+            expect(updateBody.meta.location).to.be.equal('UK');
+            expect(updateBody.meta.more).to.be.equal('data');
+        });
     });
 
     describe('DELETE /{group}/{id}', () => {
