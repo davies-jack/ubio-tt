@@ -19,7 +19,7 @@ describe('Instance Router', () => {
     });
 
     describe('GET /', () => {
-        it('200 - should return all instances', async () => {
+        it('200 - should return 200 when fetching all instances', async () => {
             const request = supertest(app.httpServer.callback());
             const response = await request.get('/');
             
@@ -29,7 +29,7 @@ describe('Instance Router', () => {
     });
 
     describe('POST /{group}/{id}', () => {
-        it('201 - should register an instance', async () => {
+        it('201 - should return 201 when registering an instance', async () => {
             const request = supertest(app.httpServer.callback());
             const response = await request.post('/particle-accelerator/123').send({
                 meta: {
