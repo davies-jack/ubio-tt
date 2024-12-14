@@ -78,8 +78,8 @@ export class InstanceRouter extends Router {
             }
         }) id: string,
     ) {
-        const deleted = await this.instanceRepository.deleteInstance(group, id);
-        this.ctx.status = deleted ? 200 : 404;
+        const hasJustBeenDeleted = await this.instanceRepository.deleteInstance(group, id);
+        this.ctx.status = hasJustBeenDeleted ? 200 : 404;
     }
 
     @Get({
