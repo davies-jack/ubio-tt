@@ -65,12 +65,12 @@ export class InstanceRepository {
       {
         $set: {
           updatedAt: new Date(),
+          meta,
         },
         $setOnInsert: {
           id,
           group,
           createdAt: new Date(),
-          meta,
         },
       },
       {
