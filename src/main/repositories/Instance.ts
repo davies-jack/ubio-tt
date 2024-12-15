@@ -44,6 +44,11 @@ export class InstanceRepository {
             updatedAt: 1,
           },
         },
+        {
+          $sort: {
+            group: 1,
+          }
+        }
       ])
       .toArray();
 
