@@ -20,11 +20,26 @@ describe('Instance Router', () => {
 
     describe('GET /', () => {
         it('200 - should return 200 when fetching all instances', async () => {
+            await testInstanceRepository.createInstances();
+
             const request = supertest(app.httpServer.callback());
             const response = await request.get('/');
             
             expect(response.status).to.be.equal(200);
             expect(response.body).to.be.an('array');
+            expect(response.body.length).to.be.equal(2);
+
+            expect(response.body[0].group).to.be.equal('particle-accelerator');
+            expect(response.body[1].group).to.be.equal('spaceship-os');
+
+            expect(response.body[0].instances).to.equal(8);
+            expect(response.body[1].instances).to.equal(1);
+
+            expect(response.body[0].createdAt).not.to.be.undefined;
+            expect(response.body[1].createdAt).not.to.be.undefined;
+            
+            expect(response.body[0].updatedAt).not.to.be.undefined;
+            expect(response.body[1].updatedAt).not.to.be.undefined;
         });
     });
 
