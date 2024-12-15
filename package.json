@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node out/bin/serve",
     "dev": "npm run clean && tsc -w",
-    "lint": "eslint --ext=.js,.ts --cache .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "clean": "rm -rf out",
     "compile": "npm run clean && tsc",
     "test": "NODE_ENV=test mocha",
