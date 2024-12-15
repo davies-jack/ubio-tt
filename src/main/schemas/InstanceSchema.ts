@@ -8,6 +8,12 @@ export interface InstanceSchema {
 
     meta?: Record<string, any>;
 }
+export interface GroupSchema {
+    group: string;
+    instances: number;
+    createdAt: number;
+    updatedAt: number;
+}
 
 export const InstanceSchema = new Schema<InstanceSchema>({
     schema: {

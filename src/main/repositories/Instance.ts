@@ -2,7 +2,7 @@ import { config } from '@ubio/framework';
 import { MongoDb } from '@ubio/framework/modules/mongodb';
 import { dep } from 'mesh-ioc';
 
-import { InstanceSchema } from '../schemas/InstanceSchema.js';
+import { GroupSchema, InstanceSchema } from '../schemas/InstanceSchema.js';
 
 export class InstanceRepository {
 
@@ -27,9 +27,7 @@ export class InstanceRepository {
         );
     }
 
-    async getAllGroups(): Promise<
-        Array<{ group: string; instances: number; createdAt: number; updatedAt: number }>
-    > {
+    async getAllGroups(): Promise<GroupSchema[]> {
         const groups = await this.collection
             .aggregate([
                 {
