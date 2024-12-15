@@ -15,7 +15,9 @@
     "docs:api": "generate-docs > API.md",
     "preversion": "npm run lint && npm run compile",
     "version": "npm run docs && git add openapi.json API.md",
-    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags"
+    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "keywords": [],
   "author": "",
@@ -38,8 +40,11 @@
     "@types/node": "^22.10.2",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "mocha": "^11.0.1",
     "npm-run-all": "^4.1.5",
+    "prettier": "^3.4.2",
     "supertest": "^7.0.0",
     "typescript": "^5.7.2"
   }
