@@ -93,9 +93,7 @@ export class InstanceRouter extends Router {
             return;
         }
 
-        if (instance.updatedAt === instance.createdAt) {
-            this.ctx.status = 201;
-        }
+        this.ctx.status = instance.updatedAt === instance.createdAt ? 201 : 200;
 
         return instance;
     }
