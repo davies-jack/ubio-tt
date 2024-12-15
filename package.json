@@ -16,9 +16,7 @@
     "docs:api": "generate-docs > API.md",
     "preversion": "npm run lint && npm run compile",
     "version": "npm run docs && git add openapi.json API.md",
-    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\""
+    "postversion": "git push origin $(git rev-parse --abbrev-ref HEAD) --tags"
   },
   "keywords": [],
   "author": "",
