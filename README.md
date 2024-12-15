@@ -23,20 +23,12 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 If a document does not exist when you try to delete it, it will return a 404.
 
-## Endpoints avaliable
+I added a `test` folder within `repositories` to test the `InstanceRepository` class. I originally had the `wipeDatabase` method within the `InstanceRepository` class, but I moved it to the `TestInstanceRepository` class for better test isolation.
 
-### GET /
+I chose [Railway.app](https://railway.app) to deploy this service. I used this due to the ease of use, the free tier and the ability to easily set up a MongoDB instance without having to go to Mongo Atlas, etc.
 
-Fetches all instances in all groups.
+I originally was going to allow `meta` to be an optional property, but in an actual production use I would imagine that the instances would always have some metadata associated with them (location, info about the instance, etc), so I kept it as a required property.
 
-### POST /{group}/{id}
+## Deployment
 
-Registers an instance under a group.
-
-### GET /{group}
-
-Fetches all instances in a group.
-
-### DELETE /{group}/{id}
-
-Deletes an instance from a group.
+This app is deployed on [Railway.app](https://railway.app). You can visit the live version [here](https://ubio-tt-production.up.railway.app/).
