@@ -37,7 +37,7 @@ describe('Instance Router', () => {
 
             expect(response.body[0].createdAt).not.to.be.undefined;
             expect(response.body[1].createdAt).not.to.be.undefined;
-            
+
             expect(response.body[0].updatedAt).not.to.be.undefined;
             expect(response.body[1].updatedAt).not.to.be.undefined;
         });
@@ -56,6 +56,9 @@ describe('Instance Router', () => {
             expect(response.body).to.be.an('object');
             expect(response.body.group).to.be.equal('particle-accelerator');
             expect(response.body.id).to.be.equal('123');
+            expect(response.body.meta.location).to.be.equal('NL');
+            expect(response.body.createdAt).not.to.be.undefined;
+            expect(response.body.updatedAt).not.to.be.undefined;
         });
 
         it('400 - should return 400 when registering an instance with no meta', async () => {
@@ -163,6 +166,21 @@ describe('Instance Router', () => {
             expect(response.body).to.be.an('array');
             expect(response.body.length).to.be.equal(3);
             expect(response.body.every((instance: InstanceSchema) => instance.group === 'particle-accelerator')).to.be.true;
+
+            expect(response.body[0].id).to.equal('123');
+            expect(response.body[0].meta.location).to.equal('NL');
+            expect(response.body[0].createdAt).not.to.be.undefined;
+            expect(response.body[0].updatedAt).not.to.be.undefined;
+
+            expect(response.body[1].id).to.equal('124');
+            expect(response.body[1].meta.location).to.equal('NL');
+            expect(response.body[1].createdAt).not.to.be.undefined;
+            expect(response.body[1].updatedAt).not.to.be.undefined;
+
+            expect(response.body[2].id).to.equal('125');
+            expect(response.body[2].meta.location).to.equal('NL');
+            expect(response.body[2].createdAt).not.to.be.undefined;
+            expect(response.body[2].updatedAt).not.to.be.undefined;
         });
     });
 });
