@@ -9,6 +9,12 @@ on:
       - main
 
 jobs:
+  format_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check format
+        run: npm run format:check
+
   test:
     runs-on: ubuntu-latest
 
