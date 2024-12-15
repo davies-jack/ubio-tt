@@ -39,6 +39,11 @@ export class InstanceRepository {
                     },
                 },
                 {
+                    $match: {
+                        instances: { $gt: 0 },
+                    },
+                },
+                {
                     $project: {
                         _id: 0,
                         group: '$_id',
