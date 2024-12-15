@@ -6,21 +6,24 @@ import { config } from "@ubio/framework";
 export class InstanceRepository {
   @dep() private mongodb!: MongoDb;
   @config({
-    default: 7200
-  }) private EXPIRY_TIME_IN_SECONDS!: number;
+    default: 7200,
+  })
+  private EXPIRY_TIME_IN_SECONDS!: number;
 
   protected get collection() {
     return this.mongodb.db.collection("instances");
   }
 
   async AutoDeleteIndex() {
-    await this.collection.createIndex({
-      updatedAt: 1
-    }, {
-      expireAfterSeconds: this.EXPIRY_TIME_IN_SECONDS
-    });
+    await this.collection.createIndex(
+      {
+        updatedAt: 1,
+      },
+      {
+        expireAfterSeconds: this.EXPIRY_TIME_IN_SECONDS,
+      },
+    );
   }
-
 
   async getAllGroups(): Promise<
     { group: string; instances: number; createdAt: number; updatedAt: number }[]
@@ -47,12 +50,12 @@ export class InstanceRepository {
         {
           $sort: {
             group: 1,
-          }
-        }
+          },
+        },
       ])
       .toArray();
 
-    return groups.map((group) => ({
+    return groups.map(group => ({
       id: group.id,
       group: group.group,
       instances: group.instances,
@@ -84,7 +87,7 @@ export class InstanceRepository {
         projection: {
           _id: false,
         },
-      }
+      },
     );
 
     if (!instance) {
@@ -92,15 +95,15 @@ export class InstanceRepository {
     }
 
     return {
-        id: instance.id,
-        group: instance.group,
-        createdAt: instance.createdAt.getTime(),
-        updatedAt: instance.updatedAt.getTime(),
-        meta: instance.meta,
-    }
+      id: instance.id,
+      group: instance.group,
+      createdAt: instance.createdAt.getTime(),
+      updatedAt: instance.updatedAt.getTime(),
+      meta: instance.meta,
+    };
   }
 
-  async deleteInstance(group: string, id: string) : Promise<boolean> {
+  async deleteInstance(group: string, id: string): Promise<boolean> {
     const deletedDocument = await this.collection.deleteOne({
       group,
       id,
@@ -110,10 +113,12 @@ export class InstanceRepository {
   }
 
   async getInstancesInGroup(group: string): Promise<InstanceSchema[]> {
-    const instances = await this.collection.find({
-      group,
-    }).toArray();
-    return instances.map((instance) => ({
+    const instances = await this.collection
+      .find({
+        group,
+      })
+      .toArray();
+    return instances.map(instance => ({
       id: instance.id,
       group: instance.group,
       createdAt: instance.createdAt.getTime(),
@@ -122,4 +127,3 @@ export class InstanceRepository {
     }));
   }
 }
-
