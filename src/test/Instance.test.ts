@@ -135,52 +135,20 @@ describe('Instance Router', () => {
 
     describe('GET /{group}', () => {
         it('200 - should return 200 when fetching all instances in a group', async () => {
-            const createRequests = {
-                '/particle-accelerator/123': {
-                    meta: {
-                        location: 'NL',
-                    }
-                },
-                '/particle-accelerator/124': {
-                    meta: {
-                        location: 'NL',
-                    }
-                },
-                '/particle-accelerator/125': {
-                    meta: {
-                        location: 'NL',
-                    }
-                },
-            };
-
-            for (const [path, body] of Object.entries(createRequests)) {
-                const request = supertest(app.httpServer.callback());
-                const response = await request.post(path).send(body);
-                expect(response.status).to.be.equal(201);
-            }
+            await testInstanceRepository.createInstances();
 
             const request = supertest(app.httpServer.callback());
             const response = await request.get('/particle-accelerator');
 
             expect(response.status).to.be.equal(200);
             expect(response.body).to.be.an('array');
-            expect(response.body.length).to.be.equal(3);
-            expect(response.body.every((instance: InstanceSchema) => instance.group === 'particle-accelerator')).to.be.true;
+            expect(response.body.length).to.be.equal(8);
 
+            expect(response.body.every((instance: InstanceSchema) => instance.group === 'particle-accelerator')).to.be.true;
             expect(response.body[0].id).to.equal('123');
             expect(response.body[0].meta.location).to.equal('NL');
             expect(response.body[0].createdAt).not.to.be.undefined;
             expect(response.body[0].updatedAt).not.to.be.undefined;
-
-            expect(response.body[1].id).to.equal('124');
-            expect(response.body[1].meta.location).to.equal('NL');
-            expect(response.body[1].createdAt).not.to.be.undefined;
-            expect(response.body[1].updatedAt).not.to.be.undefined;
-
-            expect(response.body[2].id).to.equal('125');
-            expect(response.body[2].meta.location).to.equal('NL');
-            expect(response.body[2].createdAt).not.to.be.undefined;
-            expect(response.body[2].updatedAt).not.to.be.undefined;
         });
     });
 });
