@@ -35,13 +35,20 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 If there are no groups in the database, the `GET /` route will return a 404 and an error message.
 
-If a document does not exist when you try to delete it, it will return a 404 and an error message
-.
-I added a `test` folder within `repositories` to test the `InstanceRepository` class. I originally had the `wipeDatabase` method within the `InstanceRepository` class, but I moved it to the `TestInstanceRepository` class for better test isolation.
+If a document does not exist when you try to delete it, it will return a 404 and an error message.
 
-I chose [Railway.app](https://railway.app) to deploy this service. I used this due to the ease of use, the free tier and the ability to easily set up a MongoDB instance without having to go to Mongo Atlas, etc.
+If there are no instances in a group, the `GET /{group}` route will return a 404 and an error message.
+
+I added a `repositories` folder within `test` to test the `InstanceRepository` class. I originally had the `wipeDatabase` method within the `InstanceRepository` class, but I moved it to the `TestInstanceRepository` class for better test isolation.
+
+I chose [Railway.app](https://railway.app) to deploy this service. I used this due to the ease of use, the free tier and the ability to easily set up a MongoDB instance without having to go to Mongo Atlas, etc. Railway also works really well with scaling, it's very easy to change the amount of instances (replicas) in the service settings. If you have multiple replicas, Railway also handles the load balancing between them! It has a further option to integrate Cloudflare too.
 
 I originally was going to allow `meta` to be an optional property, but in an actual production use I would imagine that the instances would always have some metadata associated with them (location, info about the instance, etc), so I kept it as a required property.
+
+If this project grew:
+
+-   Error handling would be a good next step for this project. If anything goes wrong at any point, it would be good to have a way to handle these errors gracefully using a middleware.
+-   Some kind of authentication would be a good next step - I would imagine that this wouldn't be a public service, and so would need to authenticate the requests.
 
 ## Deployment
 
