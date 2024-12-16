@@ -21,6 +21,8 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 ## Considerations
 
+If there are no groups in the database, the GET / route will return a 404 and an error message.
+
 If a document does not exist when you try to delete it, it will return a 404.
 
 I added a `test` folder within `repositories` to test the `InstanceRepository` class. I originally had the `wipeDatabase` method within the `InstanceRepository` class, but I moved it to the `TestInstanceRepository` class for better test isolation.
