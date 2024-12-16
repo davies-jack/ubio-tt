@@ -2,8 +2,8 @@ import { assert, expect } from 'chai';
 import supertest from 'supertest';
 
 import { App } from '../main/app.js';
-import { TestInstanceRepository } from '../main/repositories/test/Instance.js';
 import { InstanceSchema } from '../main/schemas/InstanceSchema.js';
+import { TestInstanceRepository } from './repositories/Instance.js';
 
 describe('Instance Router', () => {
     const app = new App();
