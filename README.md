@@ -53,3 +53,7 @@ If this project grew:
 ## Deployment
 
 This app is deployed on [Railway.app](https://railway.app). You can visit the live version [here](https://ubio-tt-production.up.railway.app/).
+
+To deploy this app, I use version tags. Doing this on Railway means creating a deploy script triggered by a tag, then running `railway up --service <service-name>` to deploy the app. I do this using the provided `version` script in the `package.json` file.
+
+To deploy, run `npm version patch`.
