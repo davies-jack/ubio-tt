@@ -57,3 +57,7 @@ This app is deployed on [Railway.app](https://railway.app). You can visit the li
 To deploy this app, I use version tags. Doing this on Railway means creating a deploy script triggered by a tag, then running `railway up --service <service-name>` to deploy the app. I do this using the provided `version` script in the `package.json` file.
 
 To deploy, run `npm version patch`.
+
+## Endpoints
+
+I have included a `endpoints.postman_collection.json` file, which you can import into Postman to see all the endpoints and test them.
