@@ -106,7 +106,6 @@ export class InstanceRepository {
         );
 
         if (!instance) {
-            console.error(instance);
             return null;
         }
 
