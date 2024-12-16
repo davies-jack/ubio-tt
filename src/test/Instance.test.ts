@@ -135,14 +135,18 @@ describe('Instance Router', () => {
             });
             expect(createStatus).to.be.equal(201);
 
-            const { status: deleteStatus } = await request.delete('/particle-accelerator/123');
+            const { status: deleteStatus, body: deleteBody } = await request.delete(
+                '/particle-accelerator/123',
+            );
             expect(deleteStatus).to.be.equal(200);
+            expect(deleteBody.message).to.be.equal('Instance deleted');
         });
 
         it('404 - should return 404 if the instance does not exist', async () => {
             const request = supertest(app.httpServer.callback());
             const response = await request.delete('/particle-accelerator/does-not-exist');
             expect(response.status).to.be.equal(404);
+            expect(response.body.error).to.be.equal('Instance not found');
         });
     });
 
