@@ -74,6 +74,7 @@ export class InstanceRepository {
     }
 
     async registerInstance(group: string, id: string, meta?: any): Promise<InstanceSchema | null> {
+        const currentDate = new Date();
         const instance = await this.collection.findOneAndUpdate(
             {
                 group,
@@ -81,13 +82,13 @@ export class InstanceRepository {
             },
             {
                 $set: {
-                    updatedAt: new Date(),
+                    updatedAt: currentDate,
                     meta,
                 },
                 $setOnInsert: {
                     id,
                     group,
-                    createdAt: new Date(),
+                    createdAt: currentDate,
                 },
             },
             {
@@ -100,6 +101,7 @@ export class InstanceRepository {
         );
 
         if (!instance) {
+            console.error(instance);
             return null;
         }
 
