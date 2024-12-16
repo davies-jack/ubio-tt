@@ -74,6 +74,11 @@ export class InstanceRepository {
     }
 
     async registerInstance(group: string, id: string, meta?: any): Promise<InstanceSchema | null> {
+        const isEmptyMeta = Object.keys(meta).length === 0;
+        if (isEmptyMeta) {
+            return null;
+        }
+
         const currentDate = new Date();
         const instance = await this.collection.findOneAndUpdate(
             {

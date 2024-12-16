@@ -84,6 +84,14 @@ describe('Instance Router', () => {
             expect(status).to.be.equal(400);
         });
 
+        it('400 - should return 400 when registering an instance with an empty meta object', async () => {
+            const request = supertest(app.httpServer.callback());
+            const { status } = await request.post(`/particle-accelerator/${randomId}`).send({
+                meta: {},
+            });
+            expect(status).to.be.equal(400);
+        });
+
         it('200 - should return 200 if the instance already exists and update updatedAt', async () => {
             const request = supertest(app.httpServer.callback());
 
