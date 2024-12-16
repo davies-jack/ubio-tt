@@ -33,3 +33,29 @@ export const InstanceSchema = new Schema<InstanceSchema>({
         required: ['id', 'group', 'createdAt', 'updatedAt'],
     },
 });
+
+export const InstanceSchemaArray = new Schema<InstanceSchema[]>({
+    schema: {
+        type: 'array',
+        items: InstanceSchema.schema,
+    },
+});
+
+export const GroupSchema = new Schema<GroupSchema>({
+    schema: {
+        type: 'object',
+        properties: {
+            group: { type: 'string' },
+            instances: { type: 'number' },
+            createdAt: { type: 'number' },
+            updatedAt: { type: 'number' },
+        },
+    },
+});
+
+export const GroupSchemaArray = new Schema<GroupSchema[]>({
+    schema: {
+        type: 'array',
+        items: GroupSchema.schema,
+    },
+});
