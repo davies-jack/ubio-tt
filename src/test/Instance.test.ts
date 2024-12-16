@@ -17,8 +17,11 @@ describe('Instance Router', () => {
         await app.start();
     });
     afterEach(async () => {
-        await testInstanceRepository.wipeDatabase();
-        await app.stop();
+        try {
+            await testInstanceRepository.wipeDatabase();
+        } finally {
+            await app.stop();
+        }
     });
 
     describe('GET /', () => {
@@ -106,18 +109,10 @@ describe('Instance Router', () => {
 
         it('200 - should return 200 if the instance already exists and update meta', async () => {
             const request = supertest(app.httpServer.callback());
-            const { status: createStatus, body: createBody } = await request
-                .post(`/particle-accelerator/${randomId}`)
-                .send({
-                    meta: {
-                        location: 'NL',
-                    },
-                });
-            expect(createStatus).to.be.equal(201);
-            expect(createBody.meta.location).to.be.equal('NL');
+            await testInstanceRepository.createInstances();
 
             const { status: updateStatus, body: updateBody } = await request
-                .post(`/particle-accelerator/${randomId}`)
+                .post(`/particle-accelerator/125`)
                 .send({
                     meta: {
                         location: 'UK',
@@ -161,9 +156,9 @@ describe('Instance Router', () => {
 
     describe('GET /{group}', () => {
         it('200 - should return 200 when fetching all instances in a group', async () => {
+            const request = supertest(app.httpServer.callback());
             await testInstanceRepository.createInstances();
 
-            const request = supertest(app.httpServer.callback());
             const { status, body } = await request.get('/particle-accelerator');
 
             expect(status).to.be.equal(200);
