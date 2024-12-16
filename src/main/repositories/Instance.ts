@@ -121,12 +121,17 @@ export class InstanceRepository {
         return deletedDocument.deletedCount > 0;
     }
 
-    async getInstancesInGroup(group: string): Promise<InstanceSchema[]> {
+    async getInstancesInGroup(group: string): Promise<InstanceSchema[] | null> {
         const instances = await this.collection
             .find({
                 group,
             })
             .toArray();
+
+        if (instances.length === 0) {
+            return null;
+        }
+
         return instances.map(instance => ({
             id: instance.id,
             group: instance.group,

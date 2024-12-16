@@ -171,5 +171,12 @@ describe('Instance Router', () => {
             assert.isDefined(response.body[0].createdAt);
             assert.isDefined(response.body[0].updatedAt);
         });
+
+        it('404 - should return 404 if no instances are found', async () => {
+            const request = supertest(app.httpServer.callback());
+            const response = await request.get('/particle-accelerator');
+            expect(response.status).to.be.equal(404);
+            expect(response.body.error).to.be.equal('No instances found');
+        });
     });
 });

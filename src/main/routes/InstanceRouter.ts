@@ -150,7 +150,14 @@ export class InstanceRouter extends Router {
         })
         group: string,
     ) {
-        return await this.instanceRepository.getInstancesInGroup(group);
+        const instances = await this.instanceRepository.getInstancesInGroup(group);
+        if (instances == null) {
+            this.ctx.status = 404;
+            this.ctx.body = { error: 'No instances found' };
+            return;
+        }
+
+        return instances;
     }
 
 }
