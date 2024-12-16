@@ -2,6 +2,7 @@ import { BodyParam, Delete, Get, PathParam, Post, Router } from '@ubio/framework
 import { dep } from 'mesh-ioc';
 
 import { InstanceRepository } from '../repositories/Instance.js';
+import { GroupSchemaArray, InstanceSchema, InstanceSchemaArray } from '../schemas/InstanceSchema.js';
 
 export class InstanceRouter extends Router {
 
@@ -13,16 +14,7 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'An array of objects, each containing information about a group.',
-                schema: {
-                    type: 'array',
-                    properties: {
-                        group: { type: 'string' },
-                        instances: { type: 'number' },
-                        createdAt: { type: 'string' },
-                        updatedAt: { type: 'string' },
-                    },
-                    required: ['group', 'instances', 'createdAt', 'updatedAt'],
-                },
+                schema: GroupSchemaArray,
             },
         },
     })
@@ -36,31 +28,11 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'Instance heartbeat has been updated',
-                schema: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string' },
-                        group: { type: 'string' },
-                        createdAt: { type: 'string' },
-                        updatedAt: { type: 'string' },
-                        meta: { type: 'object' },
-                    },
-                    required: ['id', 'group', 'createdAt', 'updatedAt'],
-                },
+                schema: InstanceSchema,
             },
             201: {
                 description: 'New instance has been registered',
-                schema: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string' },
-                        group: { type: 'string' },
-                        createdAt: { type: 'string' },
-                        updatedAt: { type: 'string' },
-                        meta: { type: 'object' },
-                    },
-                    required: ['id', 'group', 'createdAt', 'updatedAt'],
-                },
+                schema: InstanceSchema,
             },
             400: {
                 description: 'Instance could not be registered due to an error',
@@ -134,16 +106,7 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'An array of objects, each containing information about an instance.',
-                schema: {
-                    type: 'array',
-                    properties: {
-                        id: { type: 'string' },
-                        group: { type: 'string' },
-                        createdAt: { type: 'string' },
-                        updatedAt: { type: 'string' },
-                        meta: { type: 'object' },
-                    },
-                },
+                schema: InstanceSchemaArray,
             },
         },
     })
