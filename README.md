@@ -21,10 +21,10 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 ## Considerations
 
-If there are no groups in the database, the GET / route will return a 404 and an error message.
+If there are no groups in the database, the `GET /` route will return a 404 and an error message.
 
-If a document does not exist when you try to delete it, it will return a 404.
-
+If a document does not exist when you try to delete it, it will return a 404 and an error message
+.
 I added a `test` folder within `repositories` to test the `InstanceRepository` class. I originally had the `wipeDatabase` method within the `InstanceRepository` class, but I moved it to the `TestInstanceRepository` class for better test isolation.
 
 I chose [Railway.app](https://railway.app) to deploy this service. I used this due to the ease of use, the free tier and the ability to easily set up a MongoDB instance without having to go to Mongo Atlas, etc.
