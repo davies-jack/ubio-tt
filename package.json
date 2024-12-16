@@ -1,6 +1,6 @@
 {
   "name": "ubiotest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "out/bin/serve.js",
   "scripts": {
