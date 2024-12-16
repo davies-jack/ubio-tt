@@ -30,7 +30,6 @@ export const InstanceSchema = new Schema<InstanceSchema>({
                 additionalProperties: true,
             },
         },
-        required: ['id', 'group', 'createdAt', 'updatedAt'],
     },
 });
 
