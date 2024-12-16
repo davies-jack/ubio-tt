@@ -2,7 +2,7 @@ import { BodyParam, Delete, Get, PathParam, Post, Router } from '@ubio/framework
 import { dep } from 'mesh-ioc';
 
 import { InstanceRepository } from '../repositories/Instance.js';
-import { GroupSchemaArray, InstanceSchema, InstanceSchemaArray } from '../schemas/InstanceSchema.js';
+import { GroupSchema, InstanceSchema, InstanceSchemaArray } from '../schemas/InstanceSchema.js';
 
 export class InstanceRouter extends Router {
 
@@ -14,7 +14,7 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'An array of objects, each containing information about a group.',
-                schema: GroupSchemaArray,
+                schema: GroupSchema.schema,
             },
         },
     })
@@ -37,11 +37,11 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'Instance heartbeat has been updated',
-                schema: InstanceSchema,
+                schema: InstanceSchema.schema,
             },
             201: {
                 description: 'New instance has been registered',
-                schema: InstanceSchema,
+                schema: InstanceSchema.schema,
             },
             400: {
                 description: 'Instance could not be registered due to an error',
@@ -138,7 +138,7 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'An array of objects, each containing information about an instance.',
-                schema: InstanceSchemaArray,
+                schema: InstanceSchemaArray.schema,
             },
         },
     })
