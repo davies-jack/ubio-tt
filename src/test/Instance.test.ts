@@ -26,57 +26,59 @@ describe('Instance Router', () => {
             await testInstanceRepository.createInstances();
 
             const request = supertest(app.httpServer.callback());
-            const response = await request.get('/');
+            const { status, body } = await request.get('/');
 
-            expect(response.status).to.be.equal(200);
-            expect(response.body).to.be.an('array');
-            expect(response.body.length).to.be.equal(2);
+            expect(status).to.be.equal(200);
+            expect(body).to.be.an('array');
+            expect(body.length).to.be.equal(2);
 
-            expect(response.body[0].group).to.be.equal('particle-accelerator');
-            expect(response.body[1].group).to.be.equal('spaceship-os');
+            expect(body[0].group).to.be.equal('particle-accelerator');
+            expect(body[1].group).to.be.equal('spaceship-os');
 
-            expect(response.body[0].instances).to.equal(8);
-            expect(response.body[1].instances).to.equal(1);
+            expect(body[0].instances).to.equal(8);
+            expect(body[1].instances).to.equal(1);
 
-            assert.isDefined(response.body[0].createdAt);
-            assert.isDefined(response.body[1].createdAt);
+            assert.isDefined(body[0].createdAt);
+            assert.isDefined(body[1].createdAt);
 
-            assert.isDefined(response.body[0].updatedAt);
-            assert.isDefined(response.body[1].updatedAt);
+            assert.isDefined(body[0].updatedAt);
+            assert.isDefined(body[1].updatedAt);
 
-            assert.isUndefined(response.body.error);
+            assert.isUndefined(body.error);
         });
 
         it('404 - should return 404 when no groups are found', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.get('/');
-            expect(response.status).to.be.equal(404);
-            expect(response.body.error).to.be.equal('No groups found');
+            const { status, body } = await request.get('/');
+            expect(status).to.be.equal(404);
+            expect(body.error).to.be.equal('No groups found');
         });
     });
 
     describe('POST /{group}/{id}', () => {
         it('201 - should return 201 when registering an instance', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.post(`/particle-accelerator/${randomId}`).send({
-                meta: {
-                    location: 'NL',
-                },
-            });
+            const { status, body } = await request
+                .post(`/particle-accelerator/${randomId}`)
+                .send({
+                    meta: {
+                        location: 'NL',
+                    },
+                });
 
-            expect(response.status).to.be.equal(201);
-            expect(response.body).to.be.an('object');
-            expect(response.body.group).to.be.equal('particle-accelerator');
-            expect(response.body.id).to.be.equal(randomId);
-            expect(response.body.meta.location).to.be.equal('NL');
-            assert.isDefined(response.body.createdAt);
-            assert.isDefined(response.body.updatedAt);
+            expect(status).to.be.equal(201);
+            expect(body).to.be.an('object');
+            expect(body.group).to.be.equal('particle-accelerator');
+            expect(body.id).to.be.equal(randomId);
+            expect(body.meta.location).to.be.equal('NL');
+            assert.isDefined(body.createdAt);
+            assert.isDefined(body.updatedAt);
         });
 
         it('400 - should return 400 when registering an instance with no meta', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.post(`/particle-accelerator/${randomId}`);
-            expect(response.status).to.be.equal(400);
+            const { status } = await request.post(`/particle-accelerator/${randomId}`);
+            expect(status).to.be.equal(400);
         });
 
         it('200 - should return 200 if the instance already exists and update updatedAt', async () => {
@@ -151,9 +153,9 @@ describe('Instance Router', () => {
 
         it('404 - should return 404 if the instance does not exist', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.delete(`/particle-accelerator/${randomId}`);
-            expect(response.status).to.be.equal(404);
-            expect(response.body.error).to.be.equal('Instance not found');
+            const { status, body } = await request.delete(`/particle-accelerator/${randomId}`);
+            expect(status).to.be.equal(404);
+            expect(body.error).to.be.equal('Instance not found');
         });
     });
 
@@ -162,29 +164,29 @@ describe('Instance Router', () => {
             await testInstanceRepository.createInstances();
 
             const request = supertest(app.httpServer.callback());
-            const response = await request.get('/particle-accelerator');
+            const { status, body } = await request.get('/particle-accelerator');
 
-            expect(response.status).to.be.equal(200);
-            expect(response.body).to.be.an('array');
-            expect(response.body.length).to.be.equal(8);
+            expect(status).to.be.equal(200);
+            expect(body).to.be.an('array');
+            expect(body.length).to.be.equal(8);
 
             assert(
-                response.body.every(
+                body.every(
                     (instance: InstanceSchema) => instance.group === 'particle-accelerator',
                 ),
             );
-            expect(response.body[0].id).to.equal('123');
-            expect(response.body[0].meta.location).to.equal('NL');
-            assert.isUndefined(response.body.error);
-            assert.isDefined(response.body[0].createdAt);
-            assert.isDefined(response.body[0].updatedAt);
+            expect(body[0].id).to.equal('123');
+            expect(body[0].meta.location).to.equal('NL');
+            assert.isUndefined(body.error);
+            assert.isDefined(body[0].createdAt);
+            assert.isDefined(body[0].updatedAt);
         });
 
         it('404 - should return 404 if no instances are found', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.get('/particle-accelerator');
-            expect(response.status).to.be.equal(404);
-            expect(response.body.error).to.be.equal('No instances found');
+            const { status, body } = await request.get('/particle-accelerator');
+            expect(status).to.be.equal(404);
+            expect(body.error).to.be.equal('No instances found');
         });
     });
 });
