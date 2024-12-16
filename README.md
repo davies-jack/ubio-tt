@@ -9,7 +9,19 @@ Firstly, clone this repository and then run `npm install` to install the depende
 
 Copy `.env.example` to `.env` and fill in the values:
 
-We are using MongoDB for the database, I have setup a docker-compose script to run a local instance of Mongo. To start it, ensure you have Docker installed and then run `docker compose up` in the root of the repository.
+We are using MongoDB for the database, I have setup a docker-compose script to run a local instance of Mongo. To start it, ensure you have Docker installed:
+
+```bash
+// with docker compose
+docker compose up
+
+// or with docker
+docker run -d \
+--name mongodb \
+-p 27017:27017 \
+-v mongodb_data:/data/db \
+mongodb:latest
+```
 
 With the Mongo instance running, in one terminal window, run `npm run dev` to start the Typescript compiler in watch mode.
 
