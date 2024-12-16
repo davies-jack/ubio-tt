@@ -41,6 +41,8 @@ describe('Instance Router', () => {
 
             assert.isDefined(response.body[0].updatedAt);
             assert.isDefined(response.body[1].updatedAt);
+
+            assert.isUndefined(response.body.error);
         });
 
         it('404 - should return 404 when no groups are found', async () => {
@@ -140,6 +142,7 @@ describe('Instance Router', () => {
             );
             expect(deleteStatus).to.be.equal(200);
             expect(deleteBody.message).to.be.equal('Instance deleted');
+            assert.isUndefined(deleteBody.error);
         });
 
         it('404 - should return 404 if the instance does not exist', async () => {
@@ -168,6 +171,7 @@ describe('Instance Router', () => {
             );
             expect(response.body[0].id).to.equal('123');
             expect(response.body[0].meta.location).to.equal('NL');
+            assert.isUndefined(response.body.error);
             assert.isDefined(response.body[0].createdAt);
             assert.isDefined(response.body[0].updatedAt);
         });
