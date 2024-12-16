@@ -1,4 +1,5 @@
 import { assert, expect } from 'chai';
+import { randomUUID } from 'crypto';
 import supertest from 'supertest';
 
 import { App } from '../main/app.js';
@@ -10,6 +11,7 @@ describe('Instance Router', () => {
     app.mesh.service(TestInstanceRepository);
 
     const testInstanceRepository = app.mesh.resolve(TestInstanceRepository);
+    const randomId = randomUUID();
 
     beforeEach(async () => {
         await app.start();
@@ -56,7 +58,7 @@ describe('Instance Router', () => {
     describe('POST /{group}/{id}', () => {
         it('201 - should return 201 when registering an instance', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.post('/particle-accelerator/123').send({
+            const response = await request.post(`/particle-accelerator/${randomId}`).send({
                 meta: {
                     location: 'NL',
                 },
@@ -65,7 +67,7 @@ describe('Instance Router', () => {
             expect(response.status).to.be.equal(201);
             expect(response.body).to.be.an('object');
             expect(response.body.group).to.be.equal('particle-accelerator');
-            expect(response.body.id).to.be.equal('123');
+            expect(response.body.id).to.be.equal(randomId);
             expect(response.body.meta.location).to.be.equal('NL');
             assert.isDefined(response.body.createdAt);
             assert.isDefined(response.body.updatedAt);
@@ -73,7 +75,7 @@ describe('Instance Router', () => {
 
         it('400 - should return 400 when registering an instance with no meta', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.post('/particle-accelerator/123');
+            const response = await request.post(`/particle-accelerator/${randomId}`);
             expect(response.status).to.be.equal(400);
         });
 
@@ -81,7 +83,7 @@ describe('Instance Router', () => {
             const request = supertest(app.httpServer.callback());
 
             const { status: createStatus, body: createBody } = await request
-                .post('/particle-accelerator/123')
+                .post(`/particle-accelerator/${randomId}`)
                 .send({
                     meta: {
                         location: 'NL',
@@ -90,7 +92,7 @@ describe('Instance Router', () => {
             expect(createStatus).to.be.equal(201);
 
             const { status: updateStatus, body: updateBody } = await request
-                .post('/particle-accelerator/123')
+                .post(`/particle-accelerator/${randomId}`)
                 .send({
                     meta: {
                         location: 'NL',
@@ -103,7 +105,7 @@ describe('Instance Router', () => {
         it('200 - should return 200 if the instance already exists and update meta', async () => {
             const request = supertest(app.httpServer.callback());
             const { status: createStatus, body: createBody } = await request
-                .post('/particle-accelerator/123')
+                .post(`/particle-accelerator/${randomId}`)
                 .send({
                     meta: {
                         location: 'NL',
@@ -113,7 +115,7 @@ describe('Instance Router', () => {
             expect(createBody.meta.location).to.be.equal('NL');
 
             const { status: updateStatus, body: updateBody } = await request
-                .post('/particle-accelerator/123')
+                .post(`/particle-accelerator/${randomId}`)
                 .send({
                     meta: {
                         location: 'UK',
@@ -130,15 +132,17 @@ describe('Instance Router', () => {
         it('200 - should return 200 when deleting an existing instance', async () => {
             const request = supertest(app.httpServer.callback());
 
-            const { status: createStatus } = await request.post('/particle-accelerator/123').send({
-                meta: {
-                    location: 'NL',
-                },
-            });
+            const { status: createStatus } = await request
+                .post(`/particle-accelerator/${randomId}`)
+                .send({
+                    meta: {
+                        location: 'NL',
+                    },
+                });
             expect(createStatus).to.be.equal(201);
 
             const { status: deleteStatus, body: deleteBody } = await request.delete(
-                '/particle-accelerator/123',
+                `/particle-accelerator/${randomId}`,
             );
             expect(deleteStatus).to.be.equal(200);
             expect(deleteBody.message).to.be.equal('Instance deleted');
@@ -147,7 +151,7 @@ describe('Instance Router', () => {
 
         it('404 - should return 404 if the instance does not exist', async () => {
             const request = supertest(app.httpServer.callback());
-            const response = await request.delete('/particle-accelerator/does-not-exist');
+            const response = await request.delete(`/particle-accelerator/${randomId}`);
             expect(response.status).to.be.equal(404);
             expect(response.body.error).to.be.equal('Instance not found');
         });
