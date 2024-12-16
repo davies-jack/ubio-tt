@@ -106,7 +106,18 @@ export class InstanceRouter extends Router {
         id: string,
     ) {
         const hasJustBeenDeleted = await this.instanceRepository.deleteInstance(group, id);
-        this.ctx.status = hasJustBeenDeleted ? 200 : 404;
+        if (!hasJustBeenDeleted) {
+            this.ctx.status = 404;
+            this.ctx.body = {
+                error: 'Instance not found',
+            };
+            return;
+        }
+
+        this.ctx.status = 200;
+        this.ctx.body = {
+            message: 'Instance deleted',
+        };
     }
 
     @Get({
