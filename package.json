@@ -10,7 +10,7 @@
     "lint:fix": "eslint . --fix",
     "clean": "rm -rf out",
     "compile": "npm run clean && tsc",
-    "test": "NODE_ENV=test mocha",
+    "test": "LOG_LEVEL=error NODE_ENV=test mocha",
     "docs": "npm run docs:openapi && npm run docs:api",
     "docs:openapi": "generate-openapi > openapi.json",
     "docs:api": "generate-docs > API.md",
