@@ -27,7 +27,7 @@ export class InstanceRepository {
         );
     }
 
-    async getAllGroups(): Promise<GroupSchema[]> {
+    async getAllGroups(): Promise<GroupSchema[] | null> {
         const groups = await this.collection
             .aggregate([
                 {
@@ -59,6 +59,10 @@ export class InstanceRepository {
                 },
             ])
             .toArray();
+
+        if (groups.length === 0) {
+            return null;
+        }
 
         return groups.map(group => ({
             id: group.id,

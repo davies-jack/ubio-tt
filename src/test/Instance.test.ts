@@ -42,6 +42,13 @@ describe('Instance Router', () => {
             assert.isDefined(response.body[0].updatedAt);
             assert.isDefined(response.body[1].updatedAt);
         });
+
+        it('404 - should return 404 when no groups are found', async () => {
+            const request = supertest(app.httpServer.callback());
+            const response = await request.get('/');
+            expect(response.status).to.be.equal(404);
+            expect(response.body.error).to.be.equal('No groups found');
+        });
     });
 
     describe('POST /{group}/{id}', () => {

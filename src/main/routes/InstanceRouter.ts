@@ -19,7 +19,16 @@ export class InstanceRouter extends Router {
         },
     })
     async getInstances() {
-        return await this.instanceRepository.getAllGroups();
+        const groups = await this.instanceRepository.getAllGroups();
+        if (groups == null) {
+            this.ctx.status = 404;
+            this.ctx.body = {
+                error: 'No groups found',
+            };
+            return;
+        }
+
+        return groups;
     }
 
     @Post({
