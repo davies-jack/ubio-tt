@@ -85,9 +85,21 @@ export class InstanceRouter extends Router {
         responses: {
             200: {
                 description: 'Instance deleted',
+                schema: {
+                    type: 'object',
+                    properties: {
+                        message: { type: 'string' },
+                    },
+                },
             },
             404: {
                 description: 'Instance not found',
+                schema: {
+                    type: 'object',
+                    properties: {
+                        error: { type: 'string' },
+                    },
+                },
             },
         },
     })
