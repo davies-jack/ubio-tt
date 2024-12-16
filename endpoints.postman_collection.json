@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "1e72a71f-2c68-41c3-a480-3174184f2fcc",
+		"name": "UBIO Discovery Service",
+		"description": "This is a discovery service endpoint guide that allows you to register instances under groups, fetch them, and they will be automatically deleted after a configurable amount of time if they aren't given a heartbeat.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5957818"
+	},
+	"item": [
+		{
+			"name": "GET / - Get all groups",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"description": "Gets all groups and lists the amount of instances they have. Any group with 0 instances will not be returned."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /{group} - Get all instances within a group",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ubio-tt-production.up.railway.app/particle-accelerator",
+					"protocol": "https",
+					"host": [
+						"ubio-tt-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"particle-accelerator"
+					]
+				},
+				"description": "Gets all instances within a group."
+			},
+			"response": []
+		},
+		{
+			"name": "POST /{group}/{id} - Post a new instance",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"meta\": {\n        \"uptime\": \"99.99%\",\n        \"location\": \"NL\",\n        \"accelerationLevel\": \"8\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ubio-tt-production.up.railway.app/particle-accelerator/instance-1",
+					"protocol": "https",
+					"host": [
+						"ubio-tt-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"particle-accelerator",
+						"instance-1"
+					]
+				},
+				"description": "If an instance does not exist, this creates an instance in the database. If it does exist, it then updates the `updatedAt` key.\n\n**Meta itself is required, although there are no restrictions to what can be within it.**"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /{group}/{id} - Deletes an instance if it exists",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://ubio-tt-production.up.railway.app/particle-accelerator/instance-2",
+					"protocol": "https",
+					"host": [
+						"ubio-tt-production",
+						"up",
+						"railway",
+						"app"
+					],
+					"path": [
+						"particle-accelerator",
+						"instance-2"
+					]
+				},
+				"description": "Deletes an instance if it exists. Returns an error if it does not exist."
+			},
+			"response": []
+		}
+	]
+}
