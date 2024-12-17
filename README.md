@@ -35,6 +35,8 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 I have set the default expiry time for instances to 2 hours, or 7200 seconds. I chose to do this in seconds instead of hours as MongoDB's index provides a `expireAfterSeconds` option, and working with seconds is much more flexible with timing.
 
+The reason for setting the timer to 2 hours is I am unsure of the expected useage and lifetime of an instance, but I think it is a good probability that not every instance would be beating constantly, so 2 hours is a good indicator of when an instance is no longer active.
+
 If there are no groups in the database, the `GET /` route will return a 404 and an error message.
 
 If a document does not exist when you try to delete it, it will return a 404 and an error message.
