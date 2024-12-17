@@ -33,6 +33,8 @@ With **both** the Typescript compiler (`npm run dev`) and the Mongo instance run
 
 ## Considerations
 
+I have set the default expiry time for instances to 2 hours, or 7200 seconds. I chose to do this in seconds instead of hours as MongoDB's index provides a `expireAfterSeconds` option, and working with seconds is much more flexible with timing.
+
 If there are no groups in the database, the `GET /` route will return a 404 and an error message.
 
 If a document does not exist when you try to delete it, it will return a 404 and an error message.
